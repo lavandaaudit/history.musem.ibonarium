@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>history.ibonarium.museum</title>
+<title>ibonarium tv</title>
 
 <style>
 * {
@@ -13,10 +13,12 @@
 }
 
 html, body {
+  width: 100%;
+  height: 100%;
   background: #000;
   color: #cfefff;
-  font-family: "Times New Roman", serif;
-  overflow-x: hidden;
+  font-family: "Courier New", monospace;
+  overflow: hidden;
 }
 
 canvas {
@@ -25,52 +27,85 @@ canvas {
   z-index: 0;
 }
 
+/* ===== LAYOUT ===== */
 .wrapper {
   position: relative;
   z-index: 2;
-  max-width: 880px;
-  margin: 0 auto;
-  padding: 80px 14px 120px;
-}
-
-.title {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 22px;
+  padding: 20px;
   text-align: center;
-  margin-bottom: 80px;
 }
 
-.title h1 {
-  font-size: 42px;
+/* ===== TITLE ===== */
+.title {
+  font-size: clamp(26px, 6vw, 48px);
   letter-spacing: 4px;
-  font-weight: normal;
 }
 
-.title span {
-  display: block;
+.subtitle {
   font-size: 11px;
   letter-spacing: 3px;
-  opacity: 0.55;
-  margin-top: 10px;
+  opacity: 0.6;
 }
 
-/* ===== VIDEO ===== */
-.video-block {
-  margin-bottom: 90px;
-  text-align: center;
+/* ===== PLAYER ===== */
+.player {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  aspect-ratio: 16 / 9;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: #000;
 }
 
-.video-title {
+.player iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ===== CONTROLS ===== */
+.controls {
+  display: flex;
+  gap: 18px;
+  margin-top: 6px;
+}
+
+button {
+  padding: 10px 22px;
+  border: 1px solid #4dd2ff;
+  background: transparent;
+  color: #4dd2ff;
   font-size: 12px;
   letter-spacing: 2px;
-  opacity: 0.6;
-  margin-bottom: 12px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-video {
-  width: 100%;
-  max-width: 520px;
-  max-height: 300px;
-  background: #000;
-  border: 1px solid rgba(255,255,255,0.25);
+button:hover {
+  background: rgba(77,210,255,0.15);
+  box-shadow: 0 0 18px rgba(77,210,255,0.6);
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  position: absolute;
+  bottom: 14px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  opacity: 0.4;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+  .player {
+    max-width: 100%;
+  }
 }
 </style>
 </head>
@@ -81,76 +116,84 @@ video {
 
 <div class="wrapper">
 
-  <div class="title">
-    <h1>history.ibonarium.museum</h1>
-    <span>відеоархів · фрагменти часу</span>
+  <div class="title">IBONARIUM TV</div>
+  <div class="subtitle">signal stream · random broadcast</div>
+
+  <div class="player">
+    <iframe
+      id="ytplayer"
+      src=""
+      allow="autoplay; encrypted-media; picture-in-picture"
+      allowfullscreen>
+    </iframe>
   </div>
 
-  <!-- ФРАГМЕНТ 1 → 1.mp4 -->
-  <div class="video-block">
-    <div class="video-title">fragment 1</div>
-    <video controls muted playsinline preload="auto">
-      <source src="./videos/1.mp4" type="video/mp4">
-      Відео не підтримується
-    </video>
+  <div class="controls">
+    <button onclick="loadRandom()">NEXT SIGNAL</button>
   </div>
 
-  <!-- ФРАГМЕНТ 2 → 2.mp4 -->
-  <div class="video-block">
-    <div class="video-title">fragment 2</div>
-    <video controls muted playsinline preload="auto">
-      <source src="./videos/2.mp4" type="video/mp4">
-    </video>
-  </div>
-
-  <!-- ФРАГМЕНТ 3 → 3.mp4 -->
-  <div class="video-block">
-    <div class="video-title">fragment 3</div>
-    <video controls muted playsinline preload="auto">
-      <source src="./videos/3.mp4" type="video/mp4">
-    </video>
+  <div class="footer">
+    ibonarium tv · lavanda audit · 2026
   </div>
 
 </div>
 
 <script>
-/* ===== STAR BACKGROUND ===== */
-const canvas = document.getElementById("stars");
-const ctx = canvas.getContext("2d");
+/* ===== STAR BACKGROUND (ТОЙ САМИЙ) ===== */
+const s = document.getElementById("stars");
+const ctx = s.getContext("2d");
 let W, H, stars = [];
 
 function resize() {
-  W = canvas.width = window.innerWidth;
-  H = canvas.height = window.innerHeight;
-  stars = Array.from({ length: 150 }, () => ({
+  W = s.width = innerWidth;
+  H = s.height = innerHeight;
+  stars = Array.from({ length: 160 }, () => ({
     x: Math.random() * W,
     y: Math.random() * H,
     z: Math.random() * W
   }));
 }
 resize();
-window.addEventListener("resize", resize);
+addEventListener("resize", resize);
 
-function animate() {
+function drawStars() {
   ctx.fillStyle = "#000";
-  ctx.fillRect(0, 0, W, H);
+  ctx.fillRect(0,0,W,H);
   ctx.fillStyle = "rgba(120,210,255,0.6)";
-
-  stars.forEach(s => {
-    s.z -= 0.25;
-    if (s.z <= 0) s.z = W;
-    const k = 120 / s.z;
-    const x = (s.x - W/2) * k + W/2;
-    const y = (s.y - H/2) * k + H/2;
+  stars.forEach(st => {
+    st.z -= 0.25;
+    if (st.z <= 0) st.z = W;
+    const k = 120 / st.z;
+    const x = (st.x - W/2) * k + W/2;
+    const y = (st.y - H/2) * k + H/2;
     if (x > 0 && x < W && y > 0 && y < H) {
-      const size = (1 - s.z / W) * 2;
+      const size = (1 - st.z / W) * 2;
       ctx.fillRect(x, y, size, size);
     }
   });
-
-  requestAnimationFrame(animate);
+  requestAnimationFrame(drawStars);
 }
-animate();
+drawStars();
+
+/* ===== IBONARIUM TV RANDOM STREAM ===== */
+const videos = [
+  "BCQ8eHneJy0",
+  "_O_j5pPFIRM",
+  "nBcG1W3qja8",
+  "-PTiRvP0nE4",
+  "InEoc32kI7g",
+  "x0karOim9C4"
+];
+
+const player = document.getElementById("ytplayer");
+
+function loadRandom() {
+  const id = videos[Math.floor(Math.random() * videos.length)];
+  player.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
+}
+
+/* стартовий сигнал */
+loadRandom();
 </script>
 
 </body>

@@ -36,11 +36,11 @@ canvas {
 
 .title {
   text-align: center;
-  margin-bottom: 80px;
+  margin-bottom: 70px;
 }
 
 .title h1 {
-  font-size: clamp(24px, 5vw, 48px);
+  font-size: clamp(24px, 5vw, 46px);
   letter-spacing: 4px;
   font-weight: normal;
 }
@@ -50,12 +50,12 @@ canvas {
   font-size: 11px;
   letter-spacing: 3px;
   opacity: 0.55;
-  margin-top: 12px;
+  margin-top: 10px;
 }
 
 /* ===== VIDEO ===== */
 .video-block {
-  margin-bottom: 80px;
+  margin-bottom: 90px;
   text-align: center;
 }
 
@@ -63,7 +63,7 @@ canvas {
   font-size: 12px;
   letter-spacing: 2px;
   opacity: 0.6;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 video {
@@ -71,9 +71,10 @@ video {
   max-width: 520px;
   max-height: 300px;
   background: #000;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.25);
 }
 
+/* ===== FOOTER ===== */
 .footer {
   text-align: center;
   margin-top: 120px;
@@ -95,27 +96,27 @@ video {
     <span>відеоархів · фрагменти часу</span>
   </div>
 
-  <!-- ===== VIDEO 1 ===== -->
+  <!-- VIDEO 1 -->
   <div class="video-block">
     <div class="video-title">fragment 1</div>
-    <video controls preload="metadata">
+    <video controls muted playsinline preload="auto">
       <source src="./videos/1.mp4" type="video/mp4">
-      Ваш браузер не підтримує відео.
+      Відео не підтримується
     </video>
   </div>
 
-  <!-- ===== VIDEO 2 ===== -->
+  <!-- VIDEO 2 -->
   <div class="video-block">
     <div class="video-title">fragment 2</div>
-    <video controls preload="metadata">
+    <video controls muted playsinline preload="auto">
       <source src="./videos/2.mp4" type="video/mp4">
     </video>
   </div>
 
-  <!-- ===== VIDEO 3 ===== -->
+  <!-- VIDEO 3 -->
   <div class="video-block">
     <div class="video-title">fragment 3</div>
-    <video controls preload="metadata">
+    <video controls muted playsinline preload="auto">
       <source src="./videos/3.mp4" type="video/mp4">
     </video>
   </div>
@@ -127,41 +128,43 @@ video {
 </div>
 
 <script>
-/* ===== STARS BACKGROUND ===== */
-const s = document.getElementById("stars");
-const ctx = s.getContext("2d");
+/* ===== STAR BACKGROUND (СТАБІЛЬНИЙ) ===== */
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
 let W, H, stars = [];
 
 function resize() {
-  W = s.width = innerWidth;
-  H = s.height = innerHeight;
-  stars = Array.from({ length: 160 }, () => ({
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+  stars = Array.from({ length: 150 }, () => ({
     x: Math.random() * W,
     y: Math.random() * H,
     z: Math.random() * W
   }));
 }
 resize();
-addEventListener("resize", resize);
+window.addEventListener("resize", resize);
 
-function draw() {
+function animate() {
   ctx.fillStyle = "#000";
-  ctx.fillRect(0,0,W,H);
+  ctx.fillRect(0, 0, W, H);
   ctx.fillStyle = "rgba(120,210,255,0.6)";
-  stars.forEach(st => {
-    st.z -= 0.25;
-    if (st.z <= 0) st.z = W;
-    const k = 120 / st.z;
-    const x = (st.x - W/2) * k + W/2;
-    const y = (st.y - H/2) * k + H/2;
+
+  stars.forEach(s => {
+    s.z -= 0.25;
+    if (s.z <= 0) s.z = W;
+    const k = 120 / s.z;
+    const x = (s.x - W/2) * k + W/2;
+    const y = (s.y - H/2) * k + H/2;
     if (x > 0 && x < W && y > 0 && y < H) {
-      const size = (1 - st.z / W) * 2;
+      const size = (1 - s.z / W) * 2;
       ctx.fillRect(x, y, size, size);
     }
   });
-  requestAnimationFrame(draw);
+
+  requestAnimationFrame(animate);
 }
-draw();
+animate();
 </script>
 
 </body>

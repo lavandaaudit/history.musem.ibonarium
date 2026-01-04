@@ -25,7 +25,6 @@ canvas {
   z-index: 0;
 }
 
-/* ===== LAYOUT ===== */
 .wrapper {
   position: relative;
   z-index: 2;
@@ -36,11 +35,11 @@ canvas {
 
 .title {
   text-align: center;
-  margin-bottom: 70px;
+  margin-bottom: 80px;
 }
 
 .title h1 {
-  font-size: clamp(24px, 5vw, 46px);
+  font-size: 42px;
   letter-spacing: 4px;
   font-weight: normal;
 }
@@ -73,15 +72,6 @@ video {
   background: #000;
   border: 1px solid rgba(255,255,255,0.25);
 }
-
-/* ===== FOOTER ===== */
-.footer {
-  text-align: center;
-  margin-top: 120px;
-  font-size: 10px;
-  letter-spacing: 2px;
-  opacity: 0.4;
-}
 </style>
 </head>
 
@@ -96,7 +86,7 @@ video {
     <span>відеоархів · фрагменти часу</span>
   </div>
 
-  <!-- VIDEO 1 -->
+  <!-- ФРАГМЕНТ 1 → 1.mp4 -->
   <div class="video-block">
     <div class="video-title">fragment 1</div>
     <video controls muted playsinline preload="auto">
@@ -105,7 +95,7 @@ video {
     </video>
   </div>
 
-  <!-- VIDEO 2 -->
+  <!-- ФРАГМЕНТ 2 → 2.mp4 -->
   <div class="video-block">
     <div class="video-title">fragment 2</div>
     <video controls muted playsinline preload="auto">
@@ -113,7 +103,7 @@ video {
     </video>
   </div>
 
-  <!-- VIDEO 3 -->
+  <!-- ФРАГМЕНТ 3 → 3.mp4 -->
   <div class="video-block">
     <div class="video-title">fragment 3</div>
     <video controls muted playsinline preload="auto">
@@ -121,14 +111,10 @@ video {
     </video>
   </div>
 
-  <div class="footer">
-    ibonarium archive · lavanda audit · 2026
-  </div>
-
 </div>
 
 <script>
-/* ===== STAR BACKGROUND (СТАБІЛЬНИЙ) ===== */
+/* ===== STAR BACKGROUND ===== */
 const canvas = document.getElementById("stars");
 const ctx = canvas.getContext("2d");
 let W, H, stars = [];

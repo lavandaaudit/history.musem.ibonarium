@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ibonarium tv · OPERA DLXIII</title>
 
+<!-- Підключимо сучасний шрифт із засічками -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500&display=swap" rel="stylesheet">
+
 <style>
 * {
   margin: 0;
@@ -17,8 +20,8 @@ html, body {
   height: 100%;
   background: #000;
   color: #cfefff;
-  font-family: "Courier New", monospace;
-  overflow-y: auto; /* скрол ввімкнено */
+  font-family: 'Roboto Slab', serif;
+  overflow-y: auto;
 }
 
 canvas {
@@ -35,25 +38,26 @@ canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
+  gap: 16px;
   padding: 16px;
   text-align: center;
 }
 
 /* ===== TITLES ===== */
 .title {
-  font-size: clamp(22px, 5vw, 40px);
-  letter-spacing: 4px;
+  font-size: clamp(24px, 5vw, 42px);
+  letter-spacing: 3px;
+  font-weight: 500;
 }
 
 .subtitle {
   width: 100%;
-  max-width: 720px; /* ширина як у плеєра */
-  font-size: clamp(8px, 1vw, 10px); /* ще менший шрифт */
+  max-width: 720px;
+  font-size: clamp(7px, 0.9vw, 9px); /* ще менший шрифт */
   line-height: 1.5;
   letter-spacing: 1.2px;
   opacity: 0.65;
-  text-align: justify;
+  text-align: center; /* відцентрований */
 }
 
 /* ===== PLAYER ===== */
@@ -107,7 +111,7 @@ button:hover {
 /* ===== MOBILE ===== */
 @media (max-width: 600px) {
   .subtitle {
-    font-size: 7px;
+    font-size: 6px;
   }
   .controls button {
     padding: 5px 12px;
@@ -129,12 +133,15 @@ button:hover {
 
     Це повільно рухлива звукова архітектура, створена зі тиші, відстані та крихкого гармонійного пилу.
     Альбом не слідує ритму — він спостерігає час як поле, розтягуючи та стискаючи його в шари звуку.<br><br>
+
     Lavanda space music тут виступає як сигнал, а не композиція:
     далекі дрони, орбітальні текстури, низькочастотне дихання
     та мерехтливі фрагменти шуму, що пливуть у темряві.<br><br>
+
     Кожен трек — експеримент у сприйнятті, де прослуховування стає формою навігації.
     OPERA DLXIII досліджує ізоляцію, космічну відстань та внутрішню тишу.
     Музика для ночі, глибокої концентрації та станів між сном і усвідомленням.<br><br>
+
     Не саундтрек для руху, а для підвішення.
     Мінімалістичний, занурюючий експеримент, який завершує слухач.<br><br>
 

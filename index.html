@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="index,follow">
+<title>history.ibonarium.museum</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  color: #d8f3ff;
+  font-family: "Times New Roman", serif;
+  overflow-x: hidden;
+}
+
+canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+/* ===== CONTENT ===== */
+.wrapper {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 20px 120px;
+}
+
+/* ===== TITLE ===== */
+.title {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.title h1 {
+  font-size: clamp(26px, 5vw, 54px);
+  letter-spacing: 4px;
+  font-weight: normal;
+}
+
+.title span {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 3px;
+  opacity: 0.6;
+  margin-top: 12px;
+}
+
+/* ===== ENGRAVINGS ===== */
+.engravings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 28px;
+  margin-bottom: 100px;
+}
+
+.engraving {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: #050505;
+}
+
+.engraving img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.2);
+  transition: transform 1.6s ease, opacity 1.6s ease;
+  opacity: 0.85;
+}
+
+.engraving:hover img {
+  transform: scale(1.08);
+  opacity: 1;
+}
+
+/* ===== VIDEOS ===== */
+.videos {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.video-block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.video-title {
+  font-size: 14px;
+  letter-spacing: 2px;
+  opacity: 0.7;
+}
+
+video {
+  width: 100%;
+  max-height: 70vh;
+  background: #000;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  margin-top: 120px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  opacity: 0.4;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+  .wrapper {
+    padding: 60px 14px 80px;
+  }
+  .engravings {
+    gap: 16px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="stars"></canvas>
+
+<div class="wrapper">
+
+  <!-- TITLE -->
+  <div class="title">
+    <h1>history.ibonarium.museum</h1>
+    <span>архів фрагментів / гравюра часу</span>
+  </div>
+
+  <!-- ENGRAVINGS -->
+  <section class="engravings">
+    <div class="engraving"><img src="engravings/1.jpg" alt=""></div>
+    <div class="engraving"><img src="engravings/2.jpg" alt=""></div>
+    <div class="engraving"><img src="engravings/3.jpg" alt=""></div>
+    <div class="engraving"><img src="engravings/4.jpg" alt=""></div>
+  </section>
+
+  <!-- VIDEOS -->
+  <section class="videos" id="videos"></section>
+
+  <div class="footer">
+    ibonarium archive · lavanda audit · 2026
+  </div>
+
+</div>
+
+<script>
+/* ===== STARS BACKGROUND (from your code) ===== */
+const s = document.getElementById("stars");
+const ctx = s.getContext("2d");
+let W, H, stars = [];
+
+function resize() {
+  W = s.width = innerWidth;
+  H = s.height = innerHeight;
+  stars = Array.from({length: 180}, () => ({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    z: Math.random() * W
+  }));
+}
+resize();
+addEventListener("resize", resize);
+
+function drawStars() {
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0,0,W,H);
+  ctx.fillStyle = "rgba(140,220,255,0.65)";
+  stars.forEach(st => {
+    st.z -= 0.25;
+    if (st.z <= 0) st.z = W;
+    const k = 120 / st.z;
+    const x = (st.x - W/2) * k + W/2;
+    const y = (st.y - H/2) * k + H/2;
+    if (x > 0 && x < W && y > 0 && y < H) {
+      const size = (1 - st.z / W) * 2;
+      ctx.fillRect(x, y, size, size);
+    }
+  });
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+
+/* ===== AUTO VIDEO LOADER ===== */
+const videoContainer = document.getElementById("videos");
+
+for (let i = 1; i <= 13; i++) {
+  const block = document.createElement("div");
+  block.className = "video-block";
+
+  const title = document.createElement("div");
+  title.className = "video-title";
+  title.textContent = `fragment ${i}`;
+
+  const video = document.createElement("video");
+  video.src = `videos/${i}.mp4`;
+  video.controls = true;
+  video.preload = "metadata";
+
+  block.appendChild(title);
+  block.appendChild(video);
+  videoContainer.appendChild(block);
+}
+</script>
+
+</body>
+</html>

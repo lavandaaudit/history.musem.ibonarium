@@ -3,8 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="referrer" content="no-referrer">
-<meta name="robots" content="index,follow">
 <title>history.ibonarium.museum</title>
 
 <style>
@@ -15,8 +13,6 @@
 }
 
 html, body {
-  width: 100%;
-  height: 100%;
   background: #000;
   color: #cfefff;
   font-family: "Times New Roman", serif;
@@ -29,23 +25,22 @@ canvas {
   z-index: 0;
 }
 
-/* ===== CONTENT ===== */
+/* ===== LAYOUT ===== */
 .wrapper {
   position: relative;
   z-index: 2;
-  max-width: 900px;
+  max-width: 880px;
   margin: 0 auto;
-  padding: 80px 16px 120px;
+  padding: 80px 14px 120px;
 }
 
-/* ===== TITLE ===== */
 .title {
   text-align: center;
-  margin-bottom: 70px;
+  margin-bottom: 80px;
 }
 
 .title h1 {
-  font-size: clamp(24px, 4.5vw, 48px);
+  font-size: clamp(24px, 5vw, 48px);
   letter-spacing: 4px;
   font-weight: normal;
 }
@@ -55,56 +50,36 @@ canvas {
   font-size: 11px;
   letter-spacing: 3px;
   opacity: 0.55;
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
-/* ===== VIDEOS ===== */
-.videos {
-  display: flex;
-  flex-direction: column;
-  gap: 64px;
-}
-
+/* ===== VIDEO ===== */
 .video-block {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
+  margin-bottom: 80px;
+  text-align: center;
 }
 
 .video-title {
   font-size: 12px;
   letter-spacing: 2px;
   opacity: 0.6;
+  margin-bottom: 10px;
 }
 
-/* 👁️ МЕНШИЙ ПЛЕЄР */
 video {
   width: 100%;
   max-width: 520px;
   max-height: 300px;
   background: #000;
-  border: 1px solid rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.2);
 }
 
-/* ===== FOOTER ===== */
 .footer {
   text-align: center;
   margin-top: 120px;
   font-size: 10px;
   letter-spacing: 2px;
   opacity: 0.4;
-}
-
-/* ===== MOBILE ===== */
-@media (max-width: 600px) {
-  .wrapper {
-    padding: 60px 12px 80px;
-  }
-  video {
-    max-width: 100%;
-    max-height: 240px;
-  }
 }
 </style>
 </head>
@@ -115,14 +90,35 @@ video {
 
 <div class="wrapper">
 
-  <!-- TITLE -->
   <div class="title">
     <h1>history.ibonarium.museum</h1>
     <span>відеоархів · фрагменти часу</span>
   </div>
 
-  <!-- VIDEOS -->
-  <section class="videos" id="videos"></section>
+  <!-- ===== VIDEO 1 ===== -->
+  <div class="video-block">
+    <div class="video-title">fragment 1</div>
+    <video controls preload="metadata">
+      <source src="./videos/1.mp4" type="video/mp4">
+      Ваш браузер не підтримує відео.
+    </video>
+  </div>
+
+  <!-- ===== VIDEO 2 ===== -->
+  <div class="video-block">
+    <div class="video-title">fragment 2</div>
+    <video controls preload="metadata">
+      <source src="./videos/2.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- ===== VIDEO 3 ===== -->
+  <div class="video-block">
+    <div class="video-title">fragment 3</div>
+    <video controls preload="metadata">
+      <source src="./videos/3.mp4" type="video/mp4">
+    </video>
+  </div>
 
   <div class="footer">
     ibonarium archive · lavanda audit · 2026
@@ -131,7 +127,7 @@ video {
 </div>
 
 <script>
-/* ===== STARS BACKGROUND (той самий, адаптований) ===== */
+/* ===== STARS BACKGROUND ===== */
 const s = document.getElementById("stars");
 const ctx = s.getContext("2d");
 let W, H, stars = [];
@@ -139,7 +135,7 @@ let W, H, stars = [];
 function resize() {
   W = s.width = innerWidth;
   H = s.height = innerHeight;
-  stars = Array.from({length: 170}, () => ({
+  stars = Array.from({ length: 160 }, () => ({
     x: Math.random() * W,
     y: Math.random() * H,
     z: Math.random() * W
@@ -148,12 +144,12 @@ function resize() {
 resize();
 addEventListener("resize", resize);
 
-function drawStars() {
+function draw() {
   ctx.fillStyle = "#000";
   ctx.fillRect(0,0,W,H);
   ctx.fillStyle = "rgba(120,210,255,0.6)";
   stars.forEach(st => {
-    st.z -= 0.22;
+    st.z -= 0.25;
     if (st.z <= 0) st.z = W;
     const k = 120 / st.z;
     const x = (st.x - W/2) * k + W/2;
@@ -163,33 +159,9 @@ function drawStars() {
       ctx.fillRect(x, y, size, size);
     }
   });
-  requestAnimationFrame(drawStars);
+  requestAnimationFrame(draw);
 }
-drawStars();
-
-/* ===== AUTO VIDEO LOADER ===== */
-const container = document.getElementById("videos");
-
-/* 👉 СКІЛЬКИ ВІДЕО — ТУТ МІНЯЄШ */
-const VIDEO_COUNT = 13;
-
-for (let i = 1; i <= VIDEO_COUNT; i++) {
-  const block = document.createElement("div");
-  block.className = "video-block";
-
-  const title = document.createElement("div");
-  title.className = "video-title";
-  title.textContent = `fragment ${i}`;
-
-  const video = document.createElement("video");
-  video.src = `videos/${i}.mp4`;
-  video.controls = true;
-  video.preload = "metadata";
-
-  block.appendChild(title);
-  block.appendChild(video);
-  container.appendChild(block);
-}
+draw();
 </script>
 
 </body>

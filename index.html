@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ibonarium tv</title>
+<title>ibonarium tv · OPERA DLXIII</title>
 
 <style>
 * {
@@ -36,30 +36,31 @@ canvas {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 22px;
-  padding: 20px;
+  gap: 26px;
+  padding: 24px;
   text-align: center;
 }
 
-/* ===== TITLE ===== */
+/* ===== TITLES ===== */
 .title {
-  font-size: clamp(26px, 6vw, 48px);
-  letter-spacing: 4px;
+  font-size: clamp(28px, 6vw, 52px);
+  letter-spacing: 5px;
 }
 
 .subtitle {
-  font-size: 11px;
-  letter-spacing: 3px;
-  opacity: 0.6;
+  max-width: 760px;
+  font-size: 12px;
+  line-height: 1.7;
+  letter-spacing: 1.6px;
+  opacity: 0.65;
 }
 
 /* ===== PLAYER ===== */
 .player {
-  position: relative;
   width: 100%;
   max-width: 720px;
   aspect-ratio: 16 / 9;
-  border: 1px solid rgba(255,255,255,0.25);
+  border: 1px solid rgba(255,255,255,0.22);
   background: #000;
 }
 
@@ -77,34 +78,34 @@ canvas {
 }
 
 button {
-  padding: 10px 22px;
+  padding: 11px 26px;
   border: 1px solid #4dd2ff;
   background: transparent;
   color: #4dd2ff;
-  font-size: 12px;
-  letter-spacing: 2px;
+  font-size: 11px;
+  letter-spacing: 3px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.35s;
 }
 
 button:hover {
-  background: rgba(77,210,255,0.15);
-  box-shadow: 0 0 18px rgba(77,210,255,0.6);
+  background: rgba(77,210,255,0.14);
+  box-shadow: 0 0 22px rgba(77,210,255,0.55);
 }
 
 /* ===== FOOTER ===== */
 .footer {
   position: absolute;
-  bottom: 14px;
+  bottom: 16px;
   font-size: 10px;
   letter-spacing: 2px;
-  opacity: 0.4;
+  opacity: 0.45;
 }
 
 /* ===== MOBILE ===== */
 @media (max-width: 600px) {
-  .player {
-    max-width: 100%;
+  .subtitle {
+    font-size: 11px;
   }
 }
 </style>
@@ -117,8 +118,28 @@ button:hover {
 <div class="wrapper">
 
   <div class="title">OPERA DLXIII</div>
-  <div class="subtitle">OPERA DLXIII- first albom lavanda space music 2025 OPERA DLXIII is a slow-moving sonic architecture built from space, silence, and fragile harmonic dust.
-This album does not follow rhythm — it observes time as a field, stretching and collapsing it into layers of sound.Lavanda space music here acts as a signal rather than a composition: distant drones, orbital textures, low-frequency breath, and shimmering noise fragments drifting through darkness. Each track is an experiment in perception, where listening becomes a form of navigation.OPERA DLXIII explores isolation, cosmic distance, and inner stillness. It is music for night, for deep focus, for states between sleep and awareness. Not a soundtrack to movement, but to suspension.This is an ambient experiment — minimal, immersive, and intentionally open. The listener completes the work.by Roman Katyuschenko </div>
+
+  <div class="subtitle">
+    OPERA DLXIII is the first album of Lavanda space music, released in 2025.<br><br>
+
+    This work is a slow-moving sonic architecture built from silence, distance,
+    and fragile harmonic dust. It does not follow rhythm — it observes time as a field,
+    stretching and collapsing it into layers of sound.<br><br>
+
+    Lavanda space music functions here as a signal rather than a composition:
+    distant drones, orbital textures, low-frequency breath, and shimmering noise
+    fragments drifting through darkness.<br><br>
+
+    Each track is an experiment in perception, where listening becomes a form of navigation.
+    OPERA DLXIII explores isolation, cosmic distance, and inner stillness.
+    It is music for night, deep focus, and states between sleep and awareness.<br><br>
+
+    Not a soundtrack to movement, but to suspension.
+    An ambient experiment — minimal, immersive, and intentionally open.
+    The listener completes the work.<br><br>
+
+    by Roman Katyuschenko
+  </div>
 
   <div class="player">
     <iframe
@@ -140,14 +161,14 @@ This album does not follow rhythm — it observes time as a field, stretching an
 </div>
 
 <script>
-/* ===== STAR BACKGROUND (ТОЙ САМИЙ) ===== */
-const s = document.getElementById("stars");
-const ctx = s.getContext("2d");
+/* ===== STAR FIELD ===== */
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
 let W, H, stars = [];
 
 function resize() {
-  W = s.width = innerWidth;
-  H = s.height = innerHeight;
+  W = canvas.width = innerWidth;
+  H = canvas.height = innerHeight;
   stars = Array.from({ length: 160 }, () => ({
     x: Math.random() * W,
     y: Math.random() * H,
@@ -157,26 +178,30 @@ function resize() {
 resize();
 addEventListener("resize", resize);
 
-function drawStars() {
+function animateStars() {
   ctx.fillStyle = "#000";
-  ctx.fillRect(0,0,W,H);
+  ctx.fillRect(0, 0, W, H);
   ctx.fillStyle = "rgba(120,210,255,0.6)";
-  stars.forEach(st => {
-    st.z -= 0.25;
-    if (st.z <= 0) st.z = W;
-    const k = 120 / st.z;
-    const x = (st.x - W/2) * k + W/2;
-    const y = (st.y - H/2) * k + H/2;
+
+  stars.forEach(star => {
+    star.z -= 0.25;
+    if (star.z <= 0) star.z = W;
+
+    const k = 120 / star.z;
+    const x = (star.x - W / 2) * k + W / 2;
+    const y = (star.y - H / 2) * k + H / 2;
+
     if (x > 0 && x < W && y > 0 && y < H) {
-      const size = (1 - st.z / W) * 2;
+      const size = (1 - star.z / W) * 2;
       ctx.fillRect(x, y, size, size);
     }
   });
-  requestAnimationFrame(drawStars);
-}
-drawStars();
 
-/* ===== IBONARIUM TV RANDOM STREAM ===== */
+  requestAnimationFrame(animateStars);
+}
+animateStars();
+
+/* ===== IBONARIUM TV RANDOM SIGNAL ===== */
 const videos = [
   "BCQ8eHneJy0",
   "_O_j5pPFIRM",
@@ -193,7 +218,6 @@ function loadRandom() {
   player.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
 }
 
-/* стартовий сигнал */
 loadRandom();
 </script>
 

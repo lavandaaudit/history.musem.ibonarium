@@ -2,198 +2,257 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ibonarium tv</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex,nofollow">
+
+<title>signal.player</title>
+
+<!-- СУЧАСНИЙ SERIF -->
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;400;500&display=swap" rel="stylesheet">
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+:root{
+  --bg:#000;
+  --fg:#eaeaea;
+  --muted:#888;
+  --accent:#ffffff;
 }
 
-html, body {
-  width: 100%;
-  height: 100%;
-  background: #000;
-  color: #cfefff;
-  font-family: "Courier New", monospace;
-  overflow: hidden;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
+html,body{
+  width:100%;
+  height:100%;
+  background:var(--bg);
+  color:var(--fg);
+  font-family:'Source Serif 4', serif;
+  overflow:hidden;
 }
 
-/* ===== LAYOUT ===== */
-.wrapper {
-  position: relative;
-  z-index: 2;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 22px;
-  padding: 20px;
-  text-align: center;
+/* ===== VIDEO ===== */
+video{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:-1;
+  filter:brightness(0.55) contrast(1.1);
 }
 
-/* ===== TITLE ===== */
-.title {
-  font-size: clamp(26px, 6vw, 48px);
-  letter-spacing: 4px;
+/* ===== OVERLAY ===== */
+.overlay{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:24px;
+  background:linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.4),
+    rgba(0,0,0,0.1),
+    rgba(0,0,0,0.6)
+  );
 }
 
-.subtitle {
-  font-size: 11px;
-  letter-spacing: 3px;
-  opacity: 0.6;
+/* ===== HEADER ===== */
+.header{
+  font-size:14px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  opacity:0.7;
 }
 
-/* ===== PLAYER ===== */
-.player {
-  position: relative;
-  width: 100%;
-  max-width: 720px;
-  aspect-ratio: 16 / 9;
-  border: 1px solid rgba(255,255,255,0.25);
-  background: #000;
+/* ===== CENTER ===== */
+.center{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:18px;
 }
 
-.player iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
+.title{
+  font-size:28px;
+  font-weight:400;
+  letter-spacing:0.04em;
 }
 
-/* ===== CONTROLS ===== */
-.controls {
-  display: flex;
-  gap: 18px;
-  margin-top: 6px;
+/* ===== APPLE STYLE PLAYER ===== */
+.player{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:14px 22px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(14px);
+  box-shadow:
+    inset 0 0 0 0.5px rgba(255,255,255,0.25);
 }
 
-button {
-  padding: 10px 22px;
-  border: 1px solid #4dd2ff;
-  background: transparent;
-  color: #4dd2ff;
-  font-size: 12px;
-  letter-spacing: 2px;
-  cursor: pointer;
-  transition: 0.3s;
+/* play button */
+.play{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:rgba(255,255,255,0.12);
+  cursor:pointer;
+  transition:all .25s ease;
+}
+.play:hover{
+  background:rgba(255,255,255,0.22);
+}
+.play svg{
+  width:16px;
+  height:16px;
+  fill:#fff;
 }
 
-button:hover {
-  background: rgba(77,210,255,0.15);
-  box-shadow: 0 0 18px rgba(77,210,255,0.6);
+/* progress */
+.progress{
+  width:180px;
+  height:2px;
+  background:rgba(255,255,255,0.2);
+  border-radius:2px;
+  overflow:hidden;
+}
+.bar{
+  width:0%;
+  height:100%;
+  background:#fff;
+  transition:width .1s linear;
+}
+
+/* ===== MINIMAL TOGGLE ===== */
+.toggle{
+  position:absolute;
+  right:24px;
+  bottom:24px;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:rgba(255,255,255,0.1);
+  backdrop-filter:blur(12px);
+  cursor:pointer;
+  transition:.3s;
+}
+.toggle:hover{
+  background:rgba(255,255,255,0.2);
+}
+.toggle::before{
+  content:'⏻';
+  font-size:18px;
+  opacity:0.8;
 }
 
 /* ===== FOOTER ===== */
-.footer {
-  position: absolute;
-  bottom: 14px;
-  font-size: 10px;
-  letter-spacing: 2px;
-  opacity: 0.4;
-}
-
-/* ===== MOBILE ===== */
-@media (max-width: 600px) {
-  .player {
-    max-width: 100%;
-  }
+.footer{
+  font-size:12px;
+  opacity:0.5;
+  letter-spacing:0.08em;
+  text-align:center;
 }
 </style>
 </head>
 
 <body>
 
-<canvas id="stars"></canvas>
+<!-- ВІДЕО -->
+<video id="bgVideo" muted playsinline loop>
+  <source src="video/bg.mp4" type="video/mp4">
+</video>
 
-<div class="wrapper">
+<!-- АУДІО -->
+<audio id="audio" src="audio/stream.mp3" crossorigin="anonymous"></audio>
 
-  <div class="title">IBONARIUM TV</div>
-  <div class="subtitle">signal stream · random broadcast</div>
+<div class="overlay">
 
-  <div class="player">
-    <iframe
-      id="ytplayer"
-      src=""
-      allow="autoplay; encrypted-media; picture-in-picture"
-      allowfullscreen>
-    </iframe>
+  <div class="header">
+    off-grid signal
   </div>
 
-  <div class="controls">
-    <button onclick="loadRandom()">NEXT SIGNAL</button>
+  <div class="center">
+    <div class="title">ambient stream</div>
+
+    <div class="player">
+      <div class="play" id="playBtn">
+        <svg viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+      </div>
+
+      <div class="progress">
+        <div class="bar" id="bar"></div>
+      </div>
+    </div>
   </div>
 
   <div class="footer">
-    ibonarium tv · lavanda audit · 2026
+    live • minimal • serif
   </div>
 
 </div>
 
+<div class="toggle" id="toggle"></div>
+
 <script>
-/* ===== STAR BACKGROUND (ТОЙ САМИЙ) ===== */
-const s = document.getElementById("stars");
-const ctx = s.getContext("2d");
-let W, H, stars = [];
+const audio = document.getElementById('audio');
+const video = document.getElementById('bgVideo');
+const playBtn = document.getElementById('playBtn');
+const bar = document.getElementById('bar');
+const toggle = document.getElementById('toggle');
 
-function resize() {
-  W = s.width = innerWidth;
-  H = s.height = innerHeight;
-  stars = Array.from({ length: 160 }, () => ({
-    x: Math.random() * W,
-    y: Math.random() * H,
-    z: Math.random() * W
-  }));
-}
-resize();
-addEventListener("resize", resize);
+let playing = false;
 
-function drawStars() {
-  ctx.fillStyle = "#000";
-  ctx.fillRect(0,0,W,H);
-  ctx.fillStyle = "rgba(120,210,255,0.6)";
-  stars.forEach(st => {
-    st.z -= 0.25;
-    if (st.z <= 0) st.z = W;
-    const k = 120 / st.z;
-    const x = (st.x - W/2) * k + W/2;
-    const y = (st.y - H/2) * k + H/2;
-    if (x > 0 && x < W && y > 0 && y < H) {
-      const size = (1 - st.z / W) * 2;
-      ctx.fillRect(x, y, size, size);
-    }
-  });
-  requestAnimationFrame(drawStars);
-}
-drawStars();
+/* autoplay fix */
+window.addEventListener('click', () => {
+  if(video.paused) video.play().catch(()=>{});
+},{once:true});
 
-/* ===== IBONARIUM TV RANDOM STREAM ===== */
-const videos = [
-  "BCQ8eHneJy0",
-  "_O_j5pPFIRM",
-  "nBcG1W3qja8",
-  "-PTiRvP0nE4",
-  "InEoc32kI7g",
-  "x0karOim9C4"
-];
+/* play / pause */
+playBtn.onclick = () => {
+  if(!playing){
+    audio.play();
+    video.play().catch(()=>{});
+    playing = true;
+    playBtn.innerHTML = `
+      <svg viewBox="0 0 24 24">
+        <path d="M6 5h4v14H6zm8 0h4v14h-4z"/>
+      </svg>`;
+  }else{
+    audio.pause();
+    video.pause();
+    playing = false;
+    playBtn.innerHTML = `
+      <svg viewBox="0 0 24 24">
+        <path d="M8 5v14l11-7z"/>
+      </svg>`;
+  }
+};
 
-const player = document.getElementById("ytplayer");
+/* fake progress (live style) */
+setInterval(()=>{
+  if(playing){
+    let w = parseFloat(bar.style.width) || 0;
+    bar.style.width = ((w + 0.6) % 100) + '%';
+  }
+},100);
 
-function loadRandom() {
-  const id = videos[Math.floor(Math.random() * videos.length)];
-  player.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
-}
-
-/* стартовий сигнал */
-loadRandom();
+/* toggle video */
+toggle.onclick = ()=>{
+  video.style.display =
+    video.style.display === 'none' ? 'block' : 'none';
+};
 </script>
 
 </body>

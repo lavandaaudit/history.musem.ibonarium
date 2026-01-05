@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ibonarium tv · OPERA DLXIII</title>
 
-<!-- Підключимо сучасний шрифт із засічками -->
-<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- CINZEL -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
 * {
@@ -20,7 +20,7 @@ html, body {
   height: 100%;
   background: #000;
   color: #cfefff;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Cinzel', serif;
   overflow-y: auto;
 }
 
@@ -46,18 +46,18 @@ canvas {
 /* ===== TITLES ===== */
 .title {
   font-size: clamp(24px, 5vw, 42px);
-  letter-spacing: 3px;
-  font-weight: 500;
+  letter-spacing: 4px;
+  font-weight: 600;
 }
 
 .subtitle {
   width: 100%;
   max-width: 720px;
-  font-size: clamp(7px, 0.9vw, 9px); /* ще менший шрифт */
-  line-height: 1.5;
-  letter-spacing: 1.2px;
+  font-size: clamp(7px, 0.9vw, 9px);
+  line-height: 1.6;
+  letter-spacing: 1.4px;
   opacity: 0.65;
-  text-align: center; /* відцентрований */
+  text-align: center;
 }
 
 /* ===== PLAYER ===== */
@@ -85,12 +85,13 @@ canvas {
 }
 
 button {
-  padding: 6px 14px;
+  padding: 6px 16px;
   border: 1px solid #4dd2ff;
   background: transparent;
   color: #4dd2ff;
   font-size: 9px;
-  letter-spacing: 1.8px;
+  letter-spacing: 2.2px;
+  font-family: 'Cinzel', serif;
   cursor: pointer;
   transition: 0.3s;
 }
@@ -103,7 +104,7 @@ button:hover {
 /* ===== FOOTER ===== */
 .footer {
   font-size: 8px;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.8px;
   opacity: 0.45;
   margin-top: 12px;
 }
@@ -113,8 +114,8 @@ button:hover {
   .subtitle {
     font-size: 6px;
   }
-  .controls button {
-    padding: 5px 12px;
+  button {
+    padding: 5px 14px;
   }
 }
 </style>
@@ -133,6 +134,7 @@ button:hover {
 
     Це повільно рухлива звукова архітектура, створена зі тиші, відстані та крихкого гармонійного пилу.
     Альбом не слідує ритму — він спостерігає час як поле, розтягуючи та стискаючи його в шари звуку.<br><br>
+
     by Roman Katyuschenko
   </div>
 

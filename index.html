@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ibonarium tv · OPERA DLXIII</title>
 
-<!-- CINZEL -->
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Підключаємо шрифти -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
 * {
@@ -20,10 +20,10 @@ html, body {
   height: 100%;
   background: #000;
   color: #cfefff;
-  font-family: 'Cinzel', serif;
   overflow-y: auto;
 }
 
+/* ===== CANVAS STARFIELD ===== */
 canvas {
   position: fixed;
   inset: 0;
@@ -43,11 +43,34 @@ canvas {
   text-align: center;
 }
 
-/* ===== TITLES ===== */
+/* ===== TITLES / BUTTONS ===== */
 .title {
+  font-family: 'Cinzel', serif;
   font-size: clamp(24px, 5vw, 42px);
   letter-spacing: 4px;
   font-weight: 600;
+}
+
+.controls button {
+  font-family: 'Cinzel', serif;
+  padding: 6px 16px;
+  border: 1px solid #4dd2ff;
+  background: transparent;
+  color: #4dd2ff;
+  font-size: 9px;
+  letter-spacing: 2.2px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.controls button:hover {
+  background: rgba(77,210,255,0.14);
+  box-shadow: 0 0 18px rgba(77,210,255,0.55);
+}
+
+/* ===== SMALL TEXT ===== */
+.subtitle, .footer {
+  font-family: 'Space Grotesk', sans-serif;
 }
 
 .subtitle {
@@ -58,6 +81,13 @@ canvas {
   letter-spacing: 1.4px;
   opacity: 0.65;
   text-align: center;
+}
+
+.footer {
+  font-size: 8px;
+  letter-spacing: 1.8px;
+  opacity: 0.45;
+  margin-top: 12px;
 }
 
 /* ===== PLAYER ===== */
@@ -75,46 +105,12 @@ canvas {
   border: none;
 }
 
-/* ===== CONTROLS ===== */
-.controls {
-  display: flex;
-  gap: 12px;
-  margin-top: 6px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-button {
-  padding: 6px 16px;
-  border: 1px solid #4dd2ff;
-  background: transparent;
-  color: #4dd2ff;
-  font-size: 9px;
-  letter-spacing: 2.2px;
-  font-family: 'Cinzel', serif;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-button:hover {
-  background: rgba(77,210,255,0.14);
-  box-shadow: 0 0 18px rgba(77,210,255,0.55);
-}
-
-/* ===== FOOTER ===== */
-.footer {
-  font-size: 8px;
-  letter-spacing: 1.8px;
-  opacity: 0.45;
-  margin-top: 12px;
-}
-
 /* ===== MOBILE ===== */
 @media (max-width: 600px) {
   .subtitle {
     font-size: 6px;
   }
-  button {
+  .controls button {
     padding: 5px 14px;
   }
 }
@@ -131,10 +127,8 @@ button:hover {
 
   <div class="subtitle">
     OPERA DLXIII — перший альбом Lavanda space music, випущений у 2025 році.<br><br>
-
     Це повільно рухлива звукова архітектура, створена зі тиші, відстані та крихкого гармонійного пилу.
     Альбом не слідує ритму — він спостерігає час як поле, розтягуючи та стискаючи його в шари звуку.<br><br>
-
     by Roman Katyuschenko
   </div>
 

@@ -43,29 +43,14 @@ canvas {
   text-align: center;
 }
 
-/* ===== TITLES / BUTTONS ===== */
+/* ===== TITLES ===== */
 .title {
   font-family: 'Cinzel', serif;
   font-size: clamp(24px, 5vw, 42px);
   letter-spacing: 4px;
   font-weight: 600;
-}
-
-.controls button {
-  font-family: 'Cinzel', serif;
-  padding: 6px 16px;
-  border: 1px solid #4dd2ff;
-  background: transparent;
-  color: #4dd2ff;
-  font-size: 9px;
-  letter-spacing: 2.2px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.controls button:hover {
-  background: rgba(77,210,255,0.14);
-  box-shadow: 0 0 18px rgba(77,210,255,0.55);
+  animation: drift 12s ease-in-out infinite;
+  display: inline-block;
 }
 
 /* ===== SMALL TEXT ===== */
@@ -105,6 +90,32 @@ canvas {
   border: none;
 }
 
+/* ===== CONTROLS ===== */
+.controls {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.controls button {
+  font-family: 'Cinzel', serif;
+  padding: 6px 16px;
+  border: 1px solid #4dd2ff;
+  background: transparent;
+  color: #4dd2ff;
+  font-size: 9px;
+  letter-spacing: 2.2px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.controls button:hover {
+  background: rgba(77,210,255,0.14);
+  box-shadow: 0 0 18px rgba(77,210,255,0.55);
+}
+
 /* ===== MOBILE ===== */
 @media (max-width: 600px) {
   .subtitle {
@@ -113,6 +124,27 @@ canvas {
   .controls button {
     padding: 5px 14px;
   }
+}
+
+/* ===== DRIFT ===== */
+@keyframes drift {
+  0%,100% { transform: translate(0,0); }
+  50% { transform: translate(4px, -3px); }
+}
+
+/* ===== GLITCH ===== */
+.glitch {
+  animation: glitch 0.12s steps(2) infinite;
+  display: inline-block;
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); filter: none; }
+  20% { transform: translate(-2px,1px); filter: hue-rotate(20deg); }
+  40% { transform: translate(2px,-1px); filter: hue-rotate(-20deg); }
+  60% { transform: translate(-1px,2px); }
+  80% { transform: translate(1px,-2px); }
+  100% { transform: translate(0); filter: none; }
 }
 </style>
 </head>
@@ -123,7 +155,7 @@ canvas {
 
 <div class="wrapper">
 
-  <div class="title">OPERA DLXIII</div>
+  <div class="title" id="mainTitle">OPERA DLXIII</div>
 
   <div class="subtitle">
     OPERA DLXIII — перший альбом Lavanda space music, випущений у 2025 році.<br><br>
@@ -210,6 +242,14 @@ function loadRandom() {
 }
 
 loadRandom();
+
+/* ===== TITLE GLITCH ===== */
+const mainTitle = document.getElementById("mainTitle");
+
+setInterval(() => {
+  mainTitle.classList.add("glitch");
+  setTimeout(() => mainTitle.classList.remove("glitch"), 120);
+}, 30000);
 </script>
 
 </body>

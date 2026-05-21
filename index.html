@@ -5,137 +5,200 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ibonarium tv · OPERA DLXIII</title>
 
-<!-- Підключаємо шрифти -->
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-html, body {
-  width: 100%;
-  height: 100%;
-  background: #000;
-  color: #cfefff;
-  overflow-y: auto;
+html,body{
+  width:100%;
+  min-height:100%;
+  background:#000;
+  color:#d9f4ff;
+  overflow-x:hidden;
+  overflow-y:auto;
+  font-family:'Space Grotesk',sans-serif;
 }
 
-/* ===== CANVAS STARFIELD ===== */
-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
+/* ===== STARFIELD ===== */
+canvas{
+  position:fixed;
+  inset:0;
+  z-index:0;
 }
 
-/* ===== LAYOUT ===== */
-.wrapper {
-  position: relative;
-  z-index: 2;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  padding: 16px;
-  text-align: center;
+/* ===== MAIN WRAPPER ===== */
+.wrapper{
+  position:relative;
+  z-index:2;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:22px;
+  padding:34px 20px 40px;
+  text-align:center;
 }
 
-/* ===== TITLES ===== */
-.title {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(24px, 5vw, 42px);
-  letter-spacing: 4px;
-  font-weight: 600;
-  animation: drift 12s ease-in-out infinite;
-  display: inline-block;
-  transition: text-shadow 0.3s ease;
+/* ===== TITLE ===== */
+.title{
+  position:relative;
+  font-family:'Cinzel',serif;
+  font-size:clamp(30px,5.8vw,62px);
+  font-weight:700;
+  letter-spacing:10px;
+  line-height:1;
+  color:#d8f7ff;
+  text-transform:uppercase;
+  animation:drift 12s ease-in-out infinite;
+  text-shadow:
+    0 0 10px rgba(120,220,255,.25),
+    0 0 30px rgba(120,220,255,.12);
 }
 
-/* ===== SMALL TEXT ===== */
-.subtitle, .footer {
-  font-family: 'Space Grotesk', sans-serif;
+.title::after{
+  content:"SIGNAL TRANSMISSION";
+  display:block;
+  margin-top:10px;
+  font-size:9px;
+  letter-spacing:5px;
+  opacity:.38;
+  font-family:'Space Grotesk',sans-serif;
 }
 
-.subtitle {
-  width: 100%;
-  max-width: 720px;
-  font-size: clamp(7px, 0.9vw, 9px);
-  line-height: 1; /* рівно, без додаткового інтервалу */
-  letter-spacing: 1.4px;
-  opacity: 0.65;
-  text-align: center;
+/* ===== TEXT ===== */
+.subtitle,
+.footer{
+  font-family:'Space Grotesk',sans-serif;
 }
 
-.footer {
-  font-size: 8px;
-  letter-spacing: 1.8px;
-  opacity: 0.45;
-  margin-top: 12px;
+.subtitle{
+  width:100%;
+  max-width:900px;
+  font-size:clamp(8px,0.92vw,10px);
+  line-height:1.35;
+  letter-spacing:1.5px;
+  opacity:.68;
+  text-align:center;
 }
 
 /* ===== PLAYER ===== */
-.player {
-  width: 100%;
-  max-width: 720px;
-  aspect-ratio: 16 / 9;
-  border: 1px solid rgba(255,255,255,0.22);
-  background: #000;
+.player{
+  position:relative;
+  width:min(96vw, 1450px);
+  aspect-ratio:16 / 9;
+  border:1px solid rgba(140,230,255,.22);
+  background:#000;
+  overflow:hidden;
+  box-shadow:
+    0 0 40px rgba(70,170,255,.10),
+    0 0 100px rgba(70,170,255,.06);
 }
 
-.player iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
+.player::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border:1px solid rgba(255,255,255,.04);
+  pointer-events:none;
+}
+
+.player iframe{
+  width:100%;
+  height:100%;
+  border:none;
 }
 
 /* ===== CONTROLS ===== */
-.controls {
-  display: flex;
-  gap: 12px;
-  margin-top: 6px;
-  flex-wrap: wrap;
-  justify-content: center;
+.controls{
+  display:flex;
+  gap:14px;
+  margin-top:4px;
+  flex-wrap:wrap;
+  justify-content:center;
 }
 
-.controls button {
-  font-family: 'Cinzel', serif;
-  padding: 6px 16px;
-  border: 1px solid #4dd2ff;
-  background: transparent;
-  color: #4dd2ff;
-  font-size: 9px;
-  letter-spacing: 2.2px;
-  cursor: pointer;
-  transition: 0.3s;
+.controls button{
+  font-family:'Cinzel',serif;
+  padding:8px 20px;
+  border:1px solid rgba(120,230,255,.7);
+  background:rgba(0,0,0,.35);
+  backdrop-filter:blur(4px);
+  color:#7fe6ff;
+  font-size:10px;
+  letter-spacing:3px;
+  cursor:pointer;
+  transition:.35s;
 }
 
-.controls button:hover {
-  background: rgba(77,210,255,0.14);
-  box-shadow: 0 0 18px rgba(77,210,255,0.55);
+.controls button:hover{
+  background:rgba(77,210,255,.12);
+  box-shadow:
+    0 0 18px rgba(77,210,255,.35),
+    0 0 40px rgba(77,210,255,.12);
+  transform:translateY(-1px);
+}
+
+/* ===== FOOTER ===== */
+.footer{
+  font-size:8px;
+  letter-spacing:2.2px;
+  opacity:.42;
+  margin-top:8px;
 }
 
 /* ===== MOBILE ===== */
-@media (max-width: 600px) {
-  .subtitle {
-    font-size: 6px;
+@media (max-width:900px){
+
+  .wrapper{
+    padding:22px 12px 28px;
+    gap:18px;
   }
-  .controls button {
-    padding: 5px 14px;
+
+  .title{
+    letter-spacing:6px;
+  }
+
+  .title::after{
+    letter-spacing:3px;
+    font-size:8px;
+  }
+
+  .subtitle{
+    font-size:7px;
+    line-height:1.45;
+  }
+
+  .player{
+    width:100%;
+  }
+
+  .controls button{
+    padding:7px 16px;
+    font-size:9px;
   }
 }
 
-/* ===== DRIFT ===== */
-@keyframes drift {
-  0%,100% { transform: translate(0,0); }
-  50% { transform: translate(4px, -3px); }
+/* ===== ANIMATIONS ===== */
+@keyframes drift{
+  0%,100%{
+    transform:translate(0,0);
+  }
+  50%{
+    transform:translate(4px,-3px);
+  }
 }
 
-/* ===== TITLE LIGHT FLASH ===== */
-.flash {
-  text-shadow: 0 0 18px rgba(77,210,255,0.85), 0 0 28px rgba(77,210,255,0.65), 0 0 38px rgba(77,210,255,0.45);
+.flash{
+  text-shadow:
+    0 0 18px rgba(77,210,255,.85),
+    0 0 28px rgba(77,210,255,.65),
+    0 0 42px rgba(77,210,255,.35);
 }
 </style>
 </head>
@@ -146,12 +209,14 @@ canvas {
 
 <div class="wrapper">
 
-  <div class="title" id="mainTitle">OPERA DLXIII</div>
+  <div class="title" id="mainTitle">
+    OPERA DLXIII
+  </div>
 
   <div class="subtitle">
-    OPERA DLXIII — експерементальний альбом Lavanda space music/Roman Katyuschenko/2025.<br><br>
+    OPERA DLXIII — експерементальний альбом Lavanda space music/2025.<br><br>
     Це повільно рухлива звукова архітектура, створена зі тиші, відстані та крихкого гармонійного пилу.
-    Альбом не слідує ритму — він спостерігає час як поле, розтягуючи та стискаючи його в шари звуку.<br><br>
+    Альбом не слідує ритму — він спостерігає час як поле, розтягуючи та стискаючи його в шари звуку.
   </div>
 
   <div class="player">
@@ -177,46 +242,60 @@ canvas {
 /* ===== STAR FIELD ===== */
 const canvas = document.getElementById("stars");
 const ctx = canvas.getContext("2d");
-let W, H, stars = [];
 
-function resize() {
+let W,H,stars=[];
+
+function resize(){
   W = canvas.width = window.innerWidth;
   H = canvas.height = window.innerHeight;
-  stars = Array.from({ length: 160 }, () => ({
-    x: Math.random() * W,
-    y: Math.random() * H,
-    z: Math.random() * W
+
+  stars = Array.from({length:160},()=>({
+    x:Math.random()*W,
+    y:Math.random()*H,
+    z:Math.random()*W
   }));
 }
+
 resize();
-window.addEventListener("resize", resize);
+window.addEventListener("resize",resize);
 
-function animateStars() {
-  ctx.fillStyle = "#000";
-  ctx.fillRect(0, 0, W, H);
-  ctx.fillStyle = "rgba(120,210,255,0.6)";
+function animateStars(){
 
-  stars.forEach(star => {
+  ctx.fillStyle="#000";
+  ctx.fillRect(0,0,W,H);
+
+  ctx.fillStyle="rgba(120,210,255,.6)";
+
+  stars.forEach(star=>{
+
     star.z -= 0.25;
-    if (star.z <= 0) star.z = W;
+
+    if(star.z <= 0){
+      star.z = W;
+    }
 
     const k = 120 / star.z;
-    const x = (star.x - W / 2) * k + W / 2;
-    const y = (star.y - H / 2) * k + H / 2;
 
-    if (x > 0 && x < W && y > 0 && y < H) {
+    const x = (star.x - W/2) * k + W/2;
+    const y = (star.y - H/2) * k + H/2;
+
+    if(x > 0 && x < W && y > 0 && y < H){
+
       const size = (1 - star.z / W) * 2;
-      ctx.fillRect(x, y, size, size);
+
+      ctx.fillRect(x,y,size,size);
     }
+
   });
 
   requestAnimationFrame(animateStars);
 }
+
 animateStars();
 
-/* ===== IBONARIUM TV RANDOM SIGNAL ===== */
+/* ===== VIDEOS ===== */
+/* Перше відео видалено */
 const videos = [
-  "BCQ8eHneJy0",
   "_O_j5pPFIRM",
   "nBcG1W3qja8",
   "-PTiRvP0nE4",
@@ -226,20 +305,28 @@ const videos = [
 
 const player = document.getElementById("ytplayer");
 
-function loadRandom() {
-  const id = videos[Math.floor(Math.random() * videos.length)];
-  player.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
+function loadRandom(){
+
+  const id = videos[Math.floor(Math.random()*videos.length)];
+
+  player.src =
+    `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
 }
 
 loadRandom();
 
-/* ===== TITLE LIGHT FLASH ===== */
+/* ===== TITLE FLASH ===== */
 const mainTitle = document.getElementById("mainTitle");
 
-setInterval(() => {
+setInterval(()=>{
+
   mainTitle.classList.add("flash");
-  setTimeout(() => mainTitle.classList.remove("flash"), 300); // світиться 0.3 сек
-}, 30000); // кожні 30 секунд
+
+  setTimeout(()=>{
+    mainTitle.classList.remove("flash");
+  },300);
+
+},30000);
 </script>
 
 </body>
